@@ -8,6 +8,15 @@
 #include "../ker/MapGenerator/CirclesBased.hpp"
 #include "../ker/NumberGenerator/Random.hpp"
 
+using namespace sf;
+
+struct labymap
+{
+    int w, h;
+    Map map;
+    MapGeneratorCirclesBased mapgen;
+};
+
 void printmap(Map & map)
 {
     int i = 0, j = 0, w = map.GetWidth(), h = map.GetHeight();
@@ -31,67 +40,120 @@ void printmap(Map & map)
     }
 }
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-int globalx = 5;
+void OnButtonClick(labymap * data)
+{printf("%d %d\n", data->w, data->h);
+    data->map.Create(data->w, data->h);
+    data->map.Generate(data->mapgen);
+    printmap(data->map);printf("\n");
+}
+
+void SizeXChanged(labymap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
+{
+    data->w = int(adj->GetValue());
+    std::stringstream sstr;
+    sstr << adj->GetValue();
+    label->SetText(sstr.str());
+}
+
+void SizeYChanged(labymap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
+{
+    data->h = int(adj->GetValue());
+    std::stringstream sstr;
+    sstr << data->h;
+    label->SetText(sstr.str());
+}
 
 class HelloWorld
 {
     public:
-        // Our button click handler.
-        void OnButtonClick();
         void Run();
     private:
-        // Create an SFGUI. This is required before doing anything with SFGUI.
         sfg::SFGUI m_sfgui;
-        // Create the label pointer here to reach it from OnButtonClick().
-        sfg::Label::Ptr m_label;
 };
-
-void HelloWorld::OnButtonClick()
-{
-    m_label->SetText( "Hello SFGUI, pleased to meet you!" );
-    Map map;
-    map.Create(globalx, 30);
-    MapGeneratorCirclesBased mapgen;
-    mapgen.p = 30;
-    mapgen.q = 100;
-    mapgen.symetric = false;
-    Random rng;
-    rng.SetSeed(time(NULL));
-    mapgen.rng = &rng;
-    map.Generate(mapgen);
-    printmap(map);
-    globalx++;
-}
 
 void HelloWorld::Run()
 {
+    labymap data;
+    data.w = 10;
+    data.h = 10;
+    data.mapgen.p = 30;
+    data.mapgen.q = 100;
+    data.mapgen.symetric = false;
+    Random rng;
+    rng.SetSeed(time(NULL));
+    data.mapgen.rng = &rng;
     // Create SFML's window.
-    sf::RenderWindow render_window( sf::VideoMode( SCREEN_WIDTH, SCREEN_HEIGHT ), "Hello world!" );
-    // Create the label.
-    m_label = sfg::Label::Create( "Hello world!" );
-    // Create a simple button and connect the click signal.
-    std::shared_ptr<sfg::Bin> button = sfg::Button::Create( "Greet SFGUI!" );
-    button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind( &HelloWorld::OnButtonClick, this ) );
-    // Create a vertical box layouter with 5 pixels spacing and add the label
-    // and button to it.
-    auto box = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
-    box->Pack( m_label );
-    box->Pack( button, false );
+    RenderWindow render_window(VideoMode(800, 600), "Hello world!" );
+    sfg::Box::Ptr horizontalBox = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
+
+    sfg::Label::Ptr label_mapgen = sfg::Label::Create("Map generation");
+    std::shared_ptr<sfg::Button> button = sfg::Button::Create("Ready!");
+    button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(OnButtonClick, &data) );
+    std::shared_ptr<sfg::Box> box_mapgen = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
+    box_mapgen->Pack(label_mapgen, false);
+    box_mapgen->Pack(button);
+
+    sfg::Box::Ptr box_mapdim = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
+    sfg::Box::Ptr box_mapdimx = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
+    sfg::Box::Ptr box_mapdimy = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
+    sfg::Scrollbar::Ptr scrollbar_mapdimx = sfg::Scrollbar::Create( sfg::Scrollbar::Orientation::VERTICAL );
+    sfg::Scrollbar::Ptr scrollbar_mapdimy = sfg::Scrollbar::Create( sfg::Scrollbar::Orientation::VERTICAL );
+    scrollbar_mapdimx->SetRequisition(Vector2f(0.f, 80.f));
+    scrollbar_mapdimy->SetRequisition(Vector2f(0.f, 80.f));
+    sfg::Adjustment::Ptr adjustment_mapdimx = scrollbar_mapdimx->GetAdjustment();
+    sfg::Adjustment::Ptr adjustment_mapdimy = scrollbar_mapdimy->GetAdjustment();
+    adjustment_mapdimx->SetLower(1.f);
+    adjustment_mapdimy->SetLower(1.f);
+    adjustment_mapdimx->SetUpper(40.f);
+    adjustment_mapdimy->SetUpper(40.f);
+    adjustment_mapdimx->SetMinorStep(1.f);
+    adjustment_mapdimy->SetMinorStep(1.f);
+    adjustment_mapdimx->SetMajorStep(1.f);
+    adjustment_mapdimy->SetMajorStep(1.f);
+    adjustment_mapdimx->SetPageSize(10.f);
+    adjustment_mapdimy->SetPageSize(10.f);
+    adjustment_mapdimx->SetValue(10.f);
+    adjustment_mapdimy->SetValue(10.f);
+    sfg::Label::Ptr label_mapdimx = sfg::Label::Create("x");
+    sfg::Label::Ptr label_mapdimy = sfg::Label::Create("y");
+    sfg::Label::Ptr label_mapdimxv = sfg::Label::Create("10");
+    sfg::Label::Ptr label_mapdimyv = sfg::Label::Create("10");
+    adjustment_mapdimx->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(SizeXChanged, &data, adjustment_mapdimx, label_mapdimxv));
+    adjustment_mapdimy->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(SizeYChanged, &data, adjustment_mapdimy, label_mapdimyv));
+    box_mapdim->Pack(box_mapdimx);
+    box_mapdim->Pack(box_mapdimy);
+    box_mapdimx->Pack(label_mapdimx);
+    box_mapdimx->Pack(scrollbar_mapdimx);
+    box_mapdimx->Pack(label_mapdimxv, false);
+    box_mapdimy->Pack(label_mapdimy);
+    box_mapdimy->Pack(scrollbar_mapdimy);
+    box_mapdimy->Pack(label_mapdimyv, false);
+
+    horizontalBox->Pack(box_mapgen);
+    horizontalBox->Pack(box_mapdim);
     // Create a window and add the box layouter to it. Also set the window's title.
-    auto window = sfg::Window::Create();
+    std::shared_ptr<sfg::Window> window = sfg::Window::Create();
+    /*
+    NO_STYLE 	Transparent window.
+    TITLEBAR 	Titlebar.
+    BACKGROUND 	Background.
+    RESIZE  	Resizable.
+    SHADOW  	Display Shadow.
+    CLOSE   	Display close button.
+    TOPLEVEL 	Toplevel window.
+    */
+    window->SetStyle(sfg::Window::BACKGROUND+sfg::Window::CLOSE+sfg::Window::TITLEBAR);
     window->SetTitle( "Hello world!" );
-    window->Add( box );
+    window->Add(horizontalBox);
     // Create a desktop and add the window to it.
     sfg::Desktop desktop;
-    desktop.Add( window );
+    desktop.Add(window);
     // We're not using SFML to render anything in this program, so reset OpenGL
     // states. Otherwise we wouldn't see anything.
     render_window.resetGLStates();
     // Main loop!
-    sf::Event event;
-    sf::Clock clock;
+    Event event;
+    Clock clock;
     while( render_window.isOpen() )
     {
         // Event processing.
@@ -99,7 +161,7 @@ void HelloWorld::Run()
         {
             desktop.HandleEvent( event );
             // If window is about to be closed, leave program.
-            if( event.type == sf::Event::Closed )
+            if( event.type == Event::Closed )
             {
                 render_window.close();
             }

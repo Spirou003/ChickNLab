@@ -9,6 +9,8 @@ void MapGeneratorCirclesBased::Generate(uint16_t width, uint16_t height, MapWrit
 {
     if (rng == 0)
         rng = Zero::GetInstance();
+    if (map.GetWidth() < 3 || map.GetHeight() < 3)
+        return;
     //if (symetric)
     {
         //todo
