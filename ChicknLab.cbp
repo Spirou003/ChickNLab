@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ChicknLab" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\ChicknLab" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="sfgui-d" />
+					<Add library="sfml-graphics-d" />
+					<Add library="sfml-window-d" />
+					<Add library="sfml-system-d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\ChicknLab" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="sfgui" />
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-system" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="src\ker\Map.cpp" />
+		<Unit filename="src\ker\Map.hpp" />
+		<Unit filename="src\ker\MapGenerator.cpp" />
+		<Unit filename="src\ker\MapGenerator.hpp" />
+		<Unit filename="src\ker\MapGenerator\CirclesBased.cpp" />
+		<Unit filename="src\ker\MapGenerator\CirclesBased.hpp" />
+		<Unit filename="src\ker\Matrix.cpp" />
+		<Unit filename="src\ker\Matrix.hpp" />
+		<Unit filename="src\ker\NumberGenerator.cpp" />
+		<Unit filename="src\ker\NumberGenerator.hpp" />
+		<Unit filename="src\ker\NumberGenerator\Random.cpp" />
+		<Unit filename="src\ker\NumberGenerator\Random.hpp" />
+		<Unit filename="src\ker\NumberGenerator\Zero.cpp" />
+		<Unit filename="src\ker\NumberGenerator\Zero.hpp" />
+		<Unit filename="src\ker\Point2D.cpp" />
+		<Unit filename="src\ker\Point2D.hpp" />
+		<Unit filename="src\test\main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

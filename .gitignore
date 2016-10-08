@@ -1,0 +1,5 @@
+bin
+obj
+*.dll
+ChickNLab.layout
+ChickNLab.depend
