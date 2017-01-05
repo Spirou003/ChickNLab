@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\ChicknLab" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/Debug/ChicknLab" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -22,8 +22,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\ChicknLab" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/Release/ChicknLab" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -41,26 +41,43 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="src\ker\Map.cpp" />
-		<Unit filename="src\ker\Map.hpp" />
-		<Unit filename="src\ker\MapGenerator.cpp" />
-		<Unit filename="src\ker\MapGenerator.hpp" />
-		<Unit filename="src\ker\MapGenerator\CirclesBased.cpp" />
-		<Unit filename="src\ker\MapGenerator\CirclesBased.hpp" />
-		<Unit filename="src\ker\Matrix.cpp" />
-		<Unit filename="src\ker\Matrix.hpp" />
-		<Unit filename="src\ker\NumberGenerator.cpp" />
-		<Unit filename="src\ker\NumberGenerator.hpp" />
-		<Unit filename="src\ker\NumberGenerator\Random.cpp" />
-		<Unit filename="src\ker\NumberGenerator\Random.hpp" />
-		<Unit filename="src\ker\NumberGenerator\Zero.cpp" />
-		<Unit filename="src\ker\NumberGenerator\Zero.hpp" />
-		<Unit filename="src\ker\Point2D.cpp" />
-		<Unit filename="src\ker\Point2D.hpp" />
-		<Unit filename="src\test\main.cpp" />
+		<Unit filename="src/gui/MapDrawer.cpp" />
+		<Unit filename="src/gui/MapDrawer.hpp" />
+		<Unit filename="src/gui/MapDrawer/Tiled.cpp" />
+		<Unit filename="src/gui/MapDrawer/Tiled.hpp" />
+		<Unit filename="src/ker/Map.cpp" />
+		<Unit filename="src/ker/Map.hpp" />
+		<Unit filename="src/ker/MapEntity.cpp" />
+		<Unit filename="src/ker/MapEntity.hpp" />
+		<Unit filename="src/ker/MapEntity/Player.cpp" />
+		<Unit filename="src/ker/MapEntity/Player.hpp" />
+		<Unit filename="src/ker/MapEntity/Punt.cpp" />
+		<Unit filename="src/ker/MapEntity/Punt.hpp" />
+		<Unit filename="src/ker/MapGenerator.cpp" />
+		<Unit filename="src/ker/MapGenerator.hpp" />
+		<Unit filename="src/ker/MapGenerator/CirclesBased.cpp" />
+		<Unit filename="src/ker/MapGenerator/CirclesBased.hpp" />
+		<Unit filename="src/ker/Matrix.cpp" />
+		<Unit filename="src/ker/Matrix.hpp" />
+		<Unit filename="src/ker/NumberGenerator.cpp" />
+		<Unit filename="src/ker/NumberGenerator.hpp" />
+		<Unit filename="src/ker/NumberGenerator/Random.cpp" />
+		<Unit filename="src/ker/NumberGenerator/Random.hpp" />
+		<Unit filename="src/ker/NumberGenerator/Zero.cpp" />
+		<Unit filename="src/ker/NumberGenerator/Zero.hpp" />
+		<Unit filename="src/ker/Point2D.cpp" />
+		<Unit filename="src/ker/Point2D.hpp" />
+		<Unit filename="src/test/Datamap.cpp" />
+		<Unit filename="src/test/Datamap.hpp" />
+		<Unit filename="src/test/main.cpp" />
+		<Unit filename="src/test/window_SFGui.cpp" />
+		<Unit filename="src/test/window_SFGui.hpp" />
+		<Unit filename="src/test/window_SFML.cpp" />
+		<Unit filename="src/test/window_SFML.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

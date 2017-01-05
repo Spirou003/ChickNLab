@@ -1,5 +1,6 @@
 #include <SFGUI/SFGUI.hpp>
 #include <SFGUI/Widgets.hpp>
+#include <SFGUI/Renderers.hpp>
 #include <SFML/Graphics.hpp>
 
 #include <ctime>
@@ -7,47 +8,67 @@
 #include "../ker/Map.hpp"
 #include "../ker/MapGenerator/CirclesBased.hpp"
 #include "../ker/NumberGenerator/Random.hpp"
+#include "Datamap.hpp"
+#include "window_SFGui.hpp"
 
 using namespace sf;
 
-struct labymap
-{
-    int w, h;
-    Map map;
-    MapGeneratorCirclesBased mapgen;
-};
+int main1();
+int main2();
 
-void printmap(Map & map)
+int main()
 {
-    int i = 0, j = 0, w = map.GetWidth(), h = map.GetHeight();
-    while (i < w)
-    {
-        j = 0;
-        while (j < h)
-        {
-            if (map.IsWall(i, j))
-            {
-                printf("%c", 219);
-            }
-            else
-            {
-                printf(" ");
-            }
-            j++;
-        }
-        printf("\n");
-        i++;
-    }
+    main2();
 }
 
-void OnButtonClick(labymap * data)
+int main1()
+{
+    Datamap data;
+    data.w = 10;
+    data.h = 10;
+    data.mapgen.p = 30;
+    data.mapgen.q = 100;
+    data.mapgen.symetric = false;
+    Random rng;
+    rng.SetSeed(time(NULL));
+    data.mapgen.rng = &rng;
+    sfgwin window;
+    window.data = &data;
+    RenderWindow render_window(VideoMode(800, 600), "Hello world!");
+    Event event;
+    Clock clock;
+    render_window.resetGLStates();
+    while(render_window.isOpen())
+    {
+        // Event processing.
+        while(render_window.pollEvent(event))
+        {
+            window.GetEvent(event);
+            // If window is about to be closed, leave program.
+            if(event.type == Event::Closed)
+            {
+                render_window.close();
+            }
+        }
+        // Update SFGUI with elapsed seconds since last call.
+        window.Delay(clock.restart().asSeconds());
+        // Rendering.
+        render_window.clear();
+        window.Draw(render_window);
+        render_window.display();
+    }
+
+    return 0;
+}
+
+void OnButtonClick(Datamap * data)
 {printf("%d %d\n", data->w, data->h);
     data->map.Create(data->w, data->h);
     data->map.Generate(data->mapgen);
     printmap(data->map);printf("\n");
 }
 
-void SizeXChanged(labymap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
+void SizeXChanged(Datamap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
 {
     data->w = int(adj->GetValue());
     std::stringstream sstr;
@@ -55,7 +76,7 @@ void SizeXChanged(labymap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr labe
     label->SetText(sstr.str());
 }
 
-void SizeYChanged(labymap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
+void SizeYChanged(Datamap * data, sfg::Adjustment::Ptr adj, sfg::Label::Ptr label)
 {
     data->h = int(adj->GetValue());
     std::stringstream sstr;
@@ -73,7 +94,7 @@ class HelloWorld
 
 void HelloWorld::Run()
 {
-    labymap data;
+    Datamap data;
     data.w = 10;
     data.h = 10;
     data.mapgen.p = 30;
@@ -134,13 +155,13 @@ void HelloWorld::Run()
     // Create a window and add the box layouter to it. Also set the window's title.
     std::shared_ptr<sfg::Window> window = sfg::Window::Create();
     /*
-    NO_STYLE 	Transparent window.
-    TITLEBAR 	Titlebar.
-    BACKGROUND 	Background.
-    RESIZE  	Resizable.
-    SHADOW  	Display Shadow.
-    CLOSE   	Display close button.
-    TOPLEVEL 	Toplevel window.
+    NO_STYLE    Transparent window.
+    TITLEBAR    Titlebar.
+    BACKGROUND  Background.
+    RESIZE      Resizable.
+    SHADOW      Display Shadow.
+    CLOSE       Display close button.
+    TOPLEVEL    Toplevel window.
     */
     window->SetStyle(sfg::Window::BACKGROUND+sfg::Window::CLOSE+sfg::Window::TITLEBAR);
     window->SetTitle( "Hello world!" );
@@ -148,6 +169,11 @@ void HelloWorld::Run()
     // Create a desktop and add the window to it.
     sfg::Desktop desktop;
     desktop.Add(window);
+    //les trois prochaines lignes évitent un bug sur mon portable
+sf::Texture::getMaximumSize();
+sf::Shader::isAvailable();
+
+sfg::Renderer::Set( sfg::VertexArrayRenderer::Create() );
     // We're not using SFML to render anything in this program, so reset OpenGL
     // states. Otherwise we wouldn't see anything.
     render_window.resetGLStates();
@@ -170,15 +196,15 @@ void HelloWorld::Run()
         desktop.Update( clock.restart().asSeconds() );
         // Rendering.
         render_window.clear();
+
         m_sfgui.Display( render_window );
         render_window.display();
     }
 }
 
-int main()
+int main2()
 {
     HelloWorld hello_world;
     hello_world.Run();
     return 0;
 }
-
