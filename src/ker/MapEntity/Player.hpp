@@ -13,9 +13,8 @@ class Player: public MapEntity
         virtual double GetSpeed() const;
         virtual Direction GetDirection() const;
 
-        void SetSpeedX(double speedX);
-        void SetSpeedY(double speedY);
-        void SetSpeed(Point2D<double> speed);
+        void SetSpeed(double speed);
+        void SetDirection(Direction direction);
 
     private:
         double m_speed;

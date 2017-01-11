@@ -86,5 +86,7 @@ Point2D<double> MapEntity::VectorSpeed(double speed, Direction direction)
             return Point2D<double>(0, -speed);
         case Left:
             return Point2D<double>(-speed, 0);
+        default:
+            return Point2D<double>(0, 0);
     }
 }

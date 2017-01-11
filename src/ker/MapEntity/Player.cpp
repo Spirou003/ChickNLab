@@ -18,17 +18,12 @@ Direction Player::GetDirection() const
     return m_direction;
 }
 
-void Player::SetSpeedX(double vx)
+void Player::SetSpeed(double speed)
 {
-    ;
+    m_speed = (speed >= 0 ? speed : m_speed);
 }
 
-void Player::SetSpeedY(double vy)
+void Player::SetDirection(Direction direction)
 {
-
-}
-
-void Player::SetSpeed(Point2D<double> v)
-{
-    ;
+    m_direction = direction;
 }
