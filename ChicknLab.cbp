@@ -40,7 +40,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="src" />
+			<Add directory="src/ext" />
 		</Compiler>
+		<Unit filename="src/ext/Range.cpp" />
+		<Unit filename="src/ext/Range.hpp" />
 		<Unit filename="src/gui/MapDrawer.cpp" />
 		<Unit filename="src/gui/MapDrawer.hpp" />
 		<Unit filename="src/gui/MapDrawer/Tiled.cpp" />
