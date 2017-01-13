@@ -5,11 +5,15 @@
 
 #include <ctime>
 #include <cstdio>
-#include "../ker/Map.hpp"
-#include "../ker/MapGenerator/CirclesBased.hpp"
-#include "../ker/NumberGenerator/Random.hpp"
-#include "Datamap.hpp"
-#include "window_SFGui.hpp"
+#include "ker/Map.hpp"
+#include "ker/MapGenerator/CirclesBased.hpp"
+#include "ker/NumberGenerator/Random.hpp"
+#include "test/Datamap.hpp"
+#include "test/window_SFGui.hpp"
+#include "test/window_SFML.hpp"
+#include "gui/MapDrawer/Tiled.hpp"
+
+#include <X11/Xlib.h>
 
 using namespace sf;
 
@@ -18,6 +22,7 @@ int main2();
 
 int main()
 {
+    XInitThreads();
     main2();
 }
 
@@ -88,13 +93,14 @@ class HelloWorld
 {
     public:
         void Run();
+
+        Datamap data;
     private:
         sfg::SFGUI m_sfgui;
 };
 
 void HelloWorld::Run()
 {
-    Datamap data;
     data.w = 10;
     data.h = 10;
     data.mapgen.p = 30;
@@ -206,5 +212,26 @@ int main2()
 {
     HelloWorld hello_world;
     hello_world.Run();
+    //Random rng;
+    //rng.SetSeed(time(NULL));
+    sfwin window(VideoMode(440,440), "Test", Style::Titlebar | Style::Close | Style::Resize);
+    MapDrawerTiled mapdrawer;
+    /*Map map;
+    map.Create(41,41);
+    MapGeneratorCirclesBased mapgen;
+    mapgen.rng = &rng;
+    mapgen.p = 30;
+    mapgen.q = 100;
+    mapgen.symetric = false;
+    map.Generate(mapgen);
+    //printmap(map);
+    window.map = &map;*/
+    window.mapDrawer = &mapdrawer;
+    window.map = &hello_world.data.map;
+    View view = window.getDefaultView();
+    //view.setSize(window.map->GetWidth(), window.map->GetHeight());
+    view.setCenter(0,0);
+    window.setView(view);
+    window.Run();
     return 0;
 }

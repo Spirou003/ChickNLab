@@ -3,3 +3,13 @@ obj
 *.dll
 ChickNLab.layout
 ChickNLab.depend
+* - Copie*
+*/* - Copie*
+*/*/* - Copie*
+*/*/*/* - Copie*
+*/*/*/*/* - Copie*
+*(copie)*
+*/*(copie)*
+*/*/*(copie)*
+*/*/*/*(copie)*
+*/*/*/*/*(copie)*

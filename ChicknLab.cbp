@@ -49,6 +49,8 @@
 		<Unit filename="src/gui/MapDrawer.hpp" />
 		<Unit filename="src/gui/MapDrawer/Tiled.cpp" />
 		<Unit filename="src/gui/MapDrawer/Tiled.hpp" />
+		<Unit filename="src/gui/MyWindow.cpp" />
+		<Unit filename="src/gui/MyWindow.hpp" />
 		<Unit filename="src/ker/Map.cpp" />
 		<Unit filename="src/ker/Map.hpp" />
 		<Unit filename="src/ker/MapEntity.cpp" />
