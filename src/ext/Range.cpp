@@ -16,10 +16,12 @@ bool r__IteratorStepOne::operator==(const r__IteratorStepOne & other) const
 bool r__IteratorStepOne::operator!=(const r__IteratorStepOne & other) const
 {return (n != other.n);}
 
-
 r__RangeStepOne::r__RangeStepOne(int32_t start, int32_t stop):
-m_start(start), m_stop(stop){}
-
+m_start(start), m_stop(stop)
+{
+    if (start > stop)
+        m_start = m_stop = 0;
+}
 r__IteratorStepOne r__RangeStepOne::begin() const
 {return m_start;}
 r__IteratorStepOne r__RangeStepOne::end() const
@@ -43,7 +45,6 @@ bool r__IteratorStepVariable::operator==(const r__IteratorStepVariable & other) 
 {return (n == other.n);}
 bool r__IteratorStepVariable::operator!=(const r__IteratorStepVariable & other) const
 {return (n != other.n);}
-
 
 r__RangeStepVariable::r__RangeStepVariable(int32_t start, int32_t stop, int32_t step):
 m_start(0), m_stop(0), m_step(0)
@@ -83,7 +84,6 @@ m_start(0), m_stop(0), m_step(0)
     }
     m_stop = (divstop-divstart+mod)*step+start;
 }
-
 r__IteratorStepVariable r__RangeStepVariable::begin() const
 {return r__IteratorStepVariable(m_start, m_step);}
 r__IteratorStepVariable r__RangeStepVariable::end() const
